@@ -2,7 +2,7 @@ from pythonforandroid.recipe import CppCompiledComponentsPythonRecipe
 
 
 class SpacyRecipe(CppCompiledComponentsPythonRecipe):
-    version = "3.2.2"
+    version = "3.3.0"
     url = "https://pypi.python.org/packages/source/s/spacy/spacy-{version}.tar.gz"
     site_packages_name = "spacy"
     depends = [
