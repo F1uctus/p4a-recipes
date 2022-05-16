@@ -5,7 +5,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
 class BlisRecipe(CompiledComponentsPythonRecipe):
-    version = "0.7.5"
+    version = "0.7.7"
     url = (
         "https://github.com/explosion/cython-blis/archive/master.tar.gz"
         if (0, 7, 5) <= tuple(map(int, version.split("."))) < (8, 0, 0)
