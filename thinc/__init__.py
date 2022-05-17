@@ -10,6 +10,8 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
     )
     site_packages_name = "thinc"
     depends = [
+        "setuptools",
+        "cython",
         "murmurhash",
         "cymem",
         "preshed",
@@ -20,8 +22,6 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
         "ml_datasets",
         "pydantic",
         "numpy",
-        "typing_extensions",
-        "contextvars",
     ]
     call_hostpython_via_targetpython = False
     install_in_hostpython = True
@@ -41,7 +41,7 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
         cli = env["CC"].split()[0]
         ccache_bin = cli if "ccache" in cli else ""
 
-        env["СС"] = " ".join(
+        env["CXX"] = env["СС"] = " ".join(
             [
                 ccache_bin,
                 arch.get_clang_exe(with_target=True),
