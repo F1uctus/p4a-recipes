@@ -2,8 +2,12 @@ from pythonforandroid.recipe import CppCompiledComponentsPythonRecipe
 
 
 class ThincRecipe(CppCompiledComponentsPythonRecipe):
-    version = "8.0.15"
-    url = "https://pypi.python.org/packages/source/t/thinc/thinc-{version}.tar.gz"
+    version = "master"
+    url = (
+        "https://github.com/explosion/thinc/archive/master.tar.gz"
+        if version == "master"
+        else "https://pypi.python.org/packages/source/t/thinc/thinc-{version}.tar.gz"
+    )
     site_packages_name = "thinc"
     depends = [
         "murmurhash",
