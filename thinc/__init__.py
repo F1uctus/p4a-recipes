@@ -41,7 +41,7 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
         cli = env["CC"].split()[0]
         ccache_bin = cli if "ccache" in cli else ""
 
-        env["BLIS_COMPILER"] = " ".join(
+        env["СС"] = " ".join(
             [
                 ccache_bin,
                 arch.get_clang_exe(with_target=True),
