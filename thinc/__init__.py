@@ -37,6 +37,17 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
 
             env["LDFLAGS"] += f" -L{self.get_stl_lib_dir(arch)}"
             env["LDFLAGS"] += f" -l{self.stl_lib_name}"
+
+        cli = env["CC"].split()[0]
+        ccache_bin = cli if "ccache" in cli else ""
+
+        env["BLIS_COMPILER"] = " ".join(
+            [
+                ccache_bin,
+                arch.get_clang_exe(with_target=True),
+            ]
+        )
+
         return env
 
 
