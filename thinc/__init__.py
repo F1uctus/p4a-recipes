@@ -1,7 +1,7 @@
-from pythonforandroid.recipe import CppCompiledComponentsPythonRecipe
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
-class ThincRecipe(CppCompiledComponentsPythonRecipe):
+class ThincRecipe(CompiledComponentsPythonRecipe):
     version = "master"
     url = (
         "https://github.com/explosion/thinc/archive/master.tar.gz"
@@ -12,6 +12,7 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
     depends = [
         "setuptools",
         "cython",
+        # from requirements
         "murmurhash",
         "cymem",
         "preshed",
@@ -25,30 +26,6 @@ class ThincRecipe(CppCompiledComponentsPythonRecipe):
     ]
     call_hostpython_via_targetpython = False
     install_in_hostpython = True
-
-    def get_recipe_env(self, arch=None, with_flags_in_cc=False):
-        env = super().get_recipe_env(arch, with_flags_in_cc)
-        if self.need_stl_shared:
-            # thinc compile flags does not honor the standard flags:
-            # `CPPFLAGS` and `LDLIBS`, so we put in `CFLAGS` and `LDFLAGS` to
-            # correctly link with the `c++_shared` library
-            env["CFLAGS"] += f" -I{self.stl_include_dir}"
-            env["CFLAGS"] += " -frtti -fexceptions"
-
-            env["LDFLAGS"] += f" -L{self.get_stl_lib_dir(arch)}"
-            env["LDFLAGS"] += f" -l{self.stl_lib_name}"
-
-        cli = env["CC"].split()[0]
-        ccache_bin = cli if "ccache" in cli else ""
-
-        env["CXX"] = env["СС"] = " ".join(
-            [
-                ccache_bin,
-                arch.get_clang_exe(with_target=True),
-            ]
-        )
-
-        return env
 
 
 recipe = ThincRecipe()
