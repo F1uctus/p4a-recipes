@@ -1,7 +1,7 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+from pythonforandroid.recipe import CppCompiledComponentsPythonRecipe
 
 
-class ThincRecipe(CompiledComponentsPythonRecipe):
+class ThincRecipe(CppCompiledComponentsPythonRecipe):
     version = "master"
     url = (
         "https://github.com/explosion/thinc/archive/master.tar.gz"
@@ -24,7 +24,6 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         "pydantic",
         "numpy",
     ]
-    call_hostpython_via_targetpython = False
     install_in_hostpython = True
 
 
