@@ -1,7 +1,7 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+from pythonforandroid.recipe import CppCompiledComponentsPythonRecipe
 
 
-class SpacyRecipe(CompiledComponentsPythonRecipe):
+class SpacyRecipe(CppCompiledComponentsPythonRecipe):
     version = "3.3.0"
     url = "https://pypi.python.org/packages/source/s/spacy/spacy-{version}.tar.gz"
     site_packages_name = "spacy"
@@ -38,7 +38,6 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
         "packaging",
         "typing_extensions",
     ]
-    call_hostpython_via_targetpython = False
 
 
 recipe = SpacyRecipe()
