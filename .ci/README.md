@@ -1,4 +1,4 @@
-### Usage example:
+### Usage example
 
 Building spaCy for arm-v8a using python-for-android:
 
