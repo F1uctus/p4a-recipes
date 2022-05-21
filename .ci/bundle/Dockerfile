@@ -21,16 +21,11 @@ RUN mkdir src && > src/main.py
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
-	ant \
 	libc6-dev \
 	libgdbm-dev \
 	libncursesw5-dev \
-	libsqlite3-dev \
 	lld \
 	openssl \
-	python3-setuptools \
-	python3-smbus \
-	tk-dev \
  && apt -y autoremove \
  && apt -y clean \
  && rm -rf /var/lib/apt/lists/*
@@ -46,7 +41,7 @@ RUN python3 -m pip install -U \
 
 VOLUME /root/.local/share
 
-ARG bootstrap="service_only"
+ARG bootstrap="empty"
 ENV PROJECT_BOOTSTRAP=$bootstrap
 
 ARG python_version="3.10.4"
@@ -59,6 +54,9 @@ python3==${PROJECT_PYTHON_VERSION},"
 ARG requirements="spacy"
 ENV PROJECT_REQUIREMENTS=$requirements
 
+ARG requirements_blacklist="android,sqlite3"
+ENV PROJECT_REQUIREMENTS_BLACKLIST=$requirements_blacklist
+
 ARG arch="arm64-v8a"
 ENV PROJECT_ARCH=$arch
 
@@ -67,12 +65,12 @@ ENV PROJECT_NDK_API=$min_android_api
 
 ENTRYPOINT p4a apk \
 	--private $WORKDIR/src \
-	--name "bundle" \
-	--version "1.0" \
-	--package "org.p4a.bundle" \
-	--bootstrap "$PROJECT_BOOTSTRAP" \
+	--name bundle \
+	--version 1.0 \
+	--package org.p4a.bundle \
+	--bootstrap $PROJECT_BOOTSTRAP \
 	--requirements "${PROJECT_PYTHON_REQUIREMENTS}${PROJECT_REQUIREMENTS}" \
-	--blacklist-requirements android \
+	--blacklist-requirements $PROJECT_REQUIREMENTS_BLACKLIST \
 	--local-recipes $WORKDIR/local_recipes \
 	--arch $PROJECT_ARCH \
 	--ndk-api $PROJECT_NDK_API
