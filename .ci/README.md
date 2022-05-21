@@ -28,7 +28,7 @@ For the `build-env` image:
 - "android_ndk_version=23.1.7779620";
 
 For the `bundle` image:
-- The p4a recipe set to use ("recipe_tarball_url=...")
+- The p4a recipe set to use ("recipe_tarball_url=https://github.com/F1uctus/p4a-recipes/tarball/4c487202b2a2ef5d18f8bfdd9b7c50a946e52865")
 - The python version (e.g. "python_version=3.10.4");
 - The target packages to build (comma-separated, "requirements=spacy,etc");
 - The minimum supported Android SDK version ("min_android_api=24").
