@@ -40,9 +40,7 @@ RUN python3 -m pip install -U \
 # Build the project
 
 VOLUME /root/.local/share
-
-ARG bootstrap="empty"
-ENV PROJECT_BOOTSTRAP=$bootstrap
+VOLUME /root/.ccache
 
 ARG python_version="3.10.4"
 ENV PROJECT_PYTHON_VERSION=$python_version
@@ -54,9 +52,6 @@ python3==${PROJECT_PYTHON_VERSION},"
 ARG requirements="spacy"
 ENV PROJECT_REQUIREMENTS=$requirements
 
-ARG requirements_blacklist="android,sqlite3"
-ENV PROJECT_REQUIREMENTS_BLACKLIST=$requirements_blacklist
-
 ARG arch="arm64-v8a"
 ENV PROJECT_ARCH=$arch
 
@@ -64,13 +59,14 @@ ARG min_android_api="24"
 ENV PROJECT_NDK_API=$min_android_api
 
 ENTRYPOINT p4a apk \
+	--release \
 	--private $WORKDIR/src \
 	--name bundle \
 	--version 1.0 \
 	--package org.p4a.bundle \
-	--bootstrap $PROJECT_BOOTSTRAP \
+	--bootstrap service_only \
 	--requirements "${PROJECT_PYTHON_REQUIREMENTS}${PROJECT_REQUIREMENTS}" \
-	--blacklist-requirements $PROJECT_REQUIREMENTS_BLACKLIST \
+	--blacklist-requirements android,sqlite3 \
 	--local-recipes $WORKDIR/local_recipes \
 	--arch $PROJECT_ARCH \
 	--ndk-api $PROJECT_NDK_API
