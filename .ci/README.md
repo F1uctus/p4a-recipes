@@ -2,7 +2,7 @@
 
 Building spaCy for arm-v8a using python-for-android:
 
-```console
+```sh
 docker build ./build-env --tag p4a/build-env
 docker build ./bundle    --tag p4a/spacy
 docker run -v p4a-build-cache:/root/.ccache -v p4a-build-output:/root/.local/share p4a/spacy
