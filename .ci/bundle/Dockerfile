@@ -7,7 +7,7 @@ ENV WORKDIR /root/bundle
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 
-ARG recipe_tarball_url=https://github.com/F1uctus/p4a-recipes/tarball/2545aa74830cf9101f7cbf45d13913d149867290
+ARG recipe_tarball_url=https://github.com/F1uctus/p4a-recipes/tarball/c7c10dd6d0fada04a0e131278404f7d9f7bb4e4f
 
 RUN wget $recipe_tarball_url -O p4a-recipes.tgz \
  && mkdir local_recipes \
