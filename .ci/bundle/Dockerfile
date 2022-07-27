@@ -1,11 +1,11 @@
 FROM p4a/build-env
 
-##############################
-# Download the recipe set
-
 ENV WORKDIR /root/bundle
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
+
+##############################
+# Download the recipe set
 
 ARG recipe_tarball_url=https://github.com/F1uctus/p4a-recipes/tarball/c7c10dd6d0fada04a0e131278404f7d9f7bb4e4f
 
@@ -42,7 +42,7 @@ RUN python3 -m pip install -U \
 VOLUME /root/.local/share
 VOLUME /root/.ccache
 
-ARG python_version="3.10.4"
+ARG python_version="3.10.5"
 ENV PROJECT_PYTHON_VERSION=$python_version
 
 ENV PROJECT_PYTHON_REQUIREMENTS="\
