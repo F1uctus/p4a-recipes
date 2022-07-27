@@ -1,4 +1,4 @@
-FROM eclipse-temurin:11
+FROM eclipse-temurin:17
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -20,7 +20,7 @@ ARG android_sdk_root="/opt/android-sdk"
 ENV ANDROID_SDK_ROOT=$android_sdk_root
 ENV ANDROIDSDK $ANDROID_SDK_ROOT
 
-ARG android_sdk_platform_version="30"
+ARG android_sdk_platform_version="31"
 ENV ANDROID_SDK_PLATFORM_VERSION=$android_sdk_platform_version
 ENV ANDROIDAPI $ANDROID_SDK_PLATFORM_VERSION
 
@@ -37,7 +37,7 @@ RUN SDK_TOOLS_URL="https://dl.google.com/android/repository/commandlinetools-lin
  && mv $ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools $ANDROID_SDK_ROOT/cmdline-tools/latest
 
 ARG cmdline_tools_root="$android_sdk_root/cmdline-tools/latest/bin"
-ARG android_sdk_build_tools_version="32.0.0"
+ARG android_sdk_build_tools_version="33.0.0"
 
 RUN echo y | $cmdline_tools_root/sdkmanager \
                 "tools" "platform-tools" \
@@ -50,7 +50,8 @@ RUN echo y | $cmdline_tools_root/sdkmanager "platforms;android-${android_sdk_pla
 # Install Android NDK
 
 # 23.1.7779620 => r23b
-ARG android_ndk_version="23.1.7779620" 
+# 23.2.8568313 => r23c
+ARG android_ndk_version="23.2.8568313" 
 ENV ANDROID_NDK_VERSION=$android_ndk_version
 
 
@@ -78,7 +79,7 @@ RUN apt-get update \
     lbzip2 \
     libffi-dev \
     libgtk2.0-0:i386 \
-    libidn11:i386 \
+    libidn11-dev:i386 \
     libltdl-dev \
     libncurses5:i386 \
     libssl-dev \
