@@ -3,21 +3,33 @@ name: p4a spacy build
 on:
   workflow_dispatch:
   push:
+    paths:
+      - "**"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v6
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Cache ccache
         uses: actions/cache@v5
         with:
           path: p4a-ccache
-          key: ${{ runner.os }}-p4a-ccache-${{ hashFiles('.ci/**', 'spacy/**') }}
+          key: ${{ runner.os }}-p4a-ccache-${{ hashFiles('**') }}
           restore-keys: |
             ${{ runner.os }}-p4a-ccache-
 
@@ -27,11 +39,17 @@ jobs:
 
       - name: Build p4a images
         run: |
-          docker buildx build ".ci/build-env" --tag p4a/build-env \
-            --load \
-            --cache-from type=gha,scope=build-env \
-            --cache-to type=gha,scope=build-env,mode=max
+          REGISTRY_IMAGE="ghcr.io/${{ github.repository }}/p4a-build-env"
+          docker buildx build ".ci/build-env" \
+            --tag "${REGISTRY_IMAGE}:latest" \
+            --tag "${REGISTRY_IMAGE}:${{ github.sha }}" \
+            --cache-from type=registry,ref="${REGISTRY_IMAGE}:buildcache" \
+            --cache-to type=registry,ref="${REGISTRY_IMAGE}:buildcache",mode=max \
+            --push
+          docker pull "${REGISTRY_IMAGE}:latest"
           docker build ".ci/bundle" --tag p4a/spacy \
+            --pull \
+            --build-arg "BASE_IMAGE=${REGISTRY_IMAGE}:latest" \
             --build-arg "python_version=3.14.2" \
             --build-arg "requirements=spacy==3.8.11"
 
@@ -42,6 +60,7 @@ jobs:
             -v "${{ github.workspace }}/p4a-output:/root/.local/share" \
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
             p4a/spacy
+
       - name: Collect config.log files
         if: always()
         run: |
@@ -56,9 +75,12 @@ jobs:
         with:
           name: p4a-build-output
           path: p4a-output
+          retention-days: 2
+
       - name: Upload config logs
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: p4a-config-logs
           path: p4a-logs
+          retention-days: 2
