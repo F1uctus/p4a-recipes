@@ -104,6 +104,8 @@ ENV CARGO_HOME=/opt/cargo
 ENV PATH="${CARGO_HOME}/bin:${PATH}"
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-toolchain "${rustup_toolchain}" \
+ && rustup toolchain install "${rustup_toolchain}" \
+ && rustup default "${rustup_toolchain}" \
  && rustup target add \
     aarch64-linux-android \
     armv7-linux-androideabi \
