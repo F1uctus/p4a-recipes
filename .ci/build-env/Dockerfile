@@ -72,6 +72,7 @@ RUN apk add --no-cache \
     python3 \
     python3-dev \
     py3-pip \
+    py3-virtualenv \
     sudo \
     unzip \
     wget \
@@ -88,9 +89,11 @@ RUN wget $p4a_tarball_url -O p4a.tgz \
  && tar -xz --strip-components=1 -f p4a.tgz -C /opt/p4a \
  && rm p4a.tgz
 
-RUN pip install Cython \
- && pip install -e /opt/p4a \
- && rm -rf ~/.cache/
+RUN python3 -m venv /opt/p4a-venv \
+ && /opt/p4a-venv/bin/pip install -U pip setuptools wheel \
+ && /opt/p4a-venv/bin/pip install Cython \
+ && /opt/p4a-venv/bin/pip install -e /opt/p4a \
+ && rm -rf /root/.cache
 
 ##############################
 # Configure the environment
@@ -100,6 +103,7 @@ ${ANDROID_NDK_ROOT}\
 ${cmdline_tools_root}:\
 $ANDROID_SDK_ROOT/platform-tools:\
 $ANDROID_SDK_ROOT/platform-tools/bin:\
+/opt/p4a-venv/bin:\
 $PATH"
 
 ONBUILD RUN export ANDROID_NDK_MAJOR_VERSION=$(echo $ANDROID_NDK_VERSION | cut -d. -f1)
