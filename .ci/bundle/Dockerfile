@@ -7,7 +7,7 @@ WORKDIR $WORKDIR
 ##############################
 # Download the recipe set
 
-ARG recipe_tarball_url=https://github.com/F1uctus/p4a-recipes/tarball/c6c9906b87a8fed8f5680b1f7fdc5eec32b958ff
+ARG recipe_tarball_url=https://github.com/F1uctus/p4a-recipes/tarball/main
 
 RUN wget $recipe_tarball_url -O p4a-recipes.tgz \
  && mkdir local_recipes \

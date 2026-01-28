@@ -2,7 +2,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
 class MarkupSafeRecipe(CompiledComponentsPythonRecipe):
-    version = "2.1.1"
+    version = "3.0.3"
     url = "https://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-{version}.tar.gz"
     depends = [
         "setuptools",

@@ -2,7 +2,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
 class SrslyRecipe(CompiledComponentsPythonRecipe):
-    version = "2.4.3"
+    version = "2.5.2"
     url = "https://pypi.python.org/packages/source/s/srsly/srsly-{version}.tar.gz"
     site_packages_name = "srsly"
     depends = [

@@ -2,7 +2,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
 class MurmurhashRecipe(CompiledComponentsPythonRecipe):
-    version = "1.0.7"
+    version = "1.0.15"
     url = "https://pypi.python.org/packages/source/m/murmurhash/murmurhash-{version}.tar.gz"
     site_packages_name = "murmurhash"
     depends = ["setuptools", "cython"]

@@ -2,7 +2,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
 class ThincRecipe(CompiledComponentsPythonRecipe):
-    version = "master"
+    version = "8.3.10"
     url = (
         "https://github.com/explosion/thinc/archive/90631684f8e4448fb5894cc8ab748a68939f2654.tar.gz"
         if version == "master"
@@ -20,10 +20,12 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         "srsly",
         "wasabi",
         "catalogue",
+        "confection",
         "ml_datasets",
         # Third-party dependencies
         "pydantic",
         "numpy",
+        "packaging",
     ]
     call_hostpython_via_targetpython = False
     install_in_hostpython = True

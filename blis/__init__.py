@@ -3,7 +3,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
 class BlisRecipe(CompiledComponentsPythonRecipe):
-    version = "0.9.0"
+    version = "1.3.3"
     url = "https://github.com/explosion/cython-blis/archive/refs/tags/v{version}.tar.gz"
     depends = [
         "setuptools",

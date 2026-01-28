@@ -12,6 +12,7 @@
         "fexceptions",
         "frtti",
         "hostpython",
+        "hostrecipe",
         "lbzip",
         "LDFLAGS",
         "LDSHARED",
