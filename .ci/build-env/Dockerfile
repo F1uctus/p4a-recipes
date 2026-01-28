@@ -63,15 +63,20 @@ RUN apt-get update \
     autoconf \
     automake \
     build-essential \
+    binutils \
     ccache \
     cmake \
     gettext \
     git \
+    libgcc-s1 \
+    libstdc++6 \
     lbzip2 \
     libffi-dev \
     libltdl-dev \
     libssl-dev \
     libtool \
+    llvm \
+    lld \
     make \
     patch \
     pkg-config \
