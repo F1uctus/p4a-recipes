@@ -3,7 +3,7 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 class PreshedRecipe(CompiledComponentsPythonRecipe):
     version = "3.0.12"
-    url = "https://pypi.python.org/packages/source/p/preshed/preshed-{version}.tar.gz"
+    url = "https://files.pythonhosted.org/packages/source/p/preshed/preshed-{version}.tar.gz"
     site_packages_name = "preshed"
     depends = [
         "setuptools",

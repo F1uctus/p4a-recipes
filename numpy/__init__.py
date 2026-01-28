@@ -10,7 +10,7 @@ import sh
 class NumpyRecipe(CompiledComponentsPythonRecipe):
 
     version = '1.22.3'
-    url = 'https://pypi.python.org/packages/source/n/numpy/numpy-{version}.zip'
+    url = 'https://files.pythonhosted.org/packages/source/n/numpy/numpy-{version}.zip'
     site_packages_name = 'numpy'
     depends = ['setuptools', 'cython']
     install_in_hostpython = True

@@ -3,7 +3,7 @@ from pythonforandroid.recipe import PythonRecipe
 
 class RequestsRecipe(PythonRecipe):
     version = "2.32.5"
-    url = "https://pypi.python.org/packages/source/r/requests/requests-{version}.tar.gz"
+    url = "https://files.pythonhosted.org/packages/source/r/requests/requests-{version}.tar.gz"
     site_packages_name = "requests"
     depends = [
         "setuptools",
