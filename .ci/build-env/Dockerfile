@@ -18,7 +18,7 @@ ARG android_sdk_root="/opt/android-sdk"
 ENV ANDROID_SDK_ROOT=$android_sdk_root
 ENV ANDROIDSDK=$ANDROID_SDK_ROOT
 
-ARG android_sdk_platform_version="36"
+ARG android_sdk_platform_version="35"
 ENV ANDROID_SDK_PLATFORM_VERSION=$android_sdk_platform_version
 ENV ANDROIDAPI=$ANDROID_SDK_PLATFORM_VERSION
 
