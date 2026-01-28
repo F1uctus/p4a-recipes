@@ -37,7 +37,7 @@ class BlisRecipe(CompiledComponentsPythonRecipe):
 
         return env
 
-    def get_hostrecipe_env(self, arch):
+    def get_hostrecipe_env(self, arch=None):
         env = super().get_hostrecipe_env(arch)
         # see https://github.com/explosion/cython-blis/blob/bdb10be0698002e1d93f79cd91fc1a38f0da3fb3/setup.py#L290
         env["BLIS_COMPILER"] = "/usr/bin/ccache gcc"
