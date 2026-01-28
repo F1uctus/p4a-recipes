@@ -35,10 +35,7 @@ jobs:
             --load \
             --cache-from type=gha \
             --cache-to type=gha,mode=max
-          docker buildx build ".ci/bundle" --tag p4a/spacy \
-            --load \
-            --cache-from type=gha \
-            --cache-to type=gha,mode=max \
+          docker build ".ci/bundle" --tag p4a/spacy \
             --build-arg "python_version=3.14.2" \
             --build-arg "requirements=spacy==3.8.11"
 

@@ -25,6 +25,8 @@
         "spacy",
         "stdlib",
         "targetpython",
-        "temurin"
+        "temurin",
+        "venv",
+        "virtualenv"
     ]
 }
