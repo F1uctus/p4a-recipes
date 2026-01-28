@@ -102,16 +102,19 @@ ARG rustup_toolchain="stable"
 ENV RUSTUP_HOME=/opt/rustup
 ENV CARGO_HOME=/opt/cargo
 ENV RUSTUP_TOOLCHAIN=${rustup_toolchain}
-ENV PATH="${CARGO_HOME}/bin:${PATH}"
+ENV PATH="${PATH}:${CARGO_HOME}/bin"
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-toolchain "${rustup_toolchain}" \
- && rustup toolchain install "${rustup_toolchain}" \
- && rustup default "${rustup_toolchain}" \
- && rustup target add \
+ && "${CARGO_HOME}/bin/rustup" toolchain install "${rustup_toolchain}" \
+ && "${CARGO_HOME}/bin/rustup" default "${rustup_toolchain}" \
+ && "${CARGO_HOME}/bin/rustup" target add \
     aarch64-linux-android \
     armv7-linux-androideabi \
     i686-linux-android \
     x86_64-linux-android \
+ && TOOLCHAIN_SYSROOT="$(rustc --print sysroot)" \
+ && ln -sf "${TOOLCHAIN_SYSROOT}/bin/cargo" /usr/local/bin/cargo \
+ && ln -sf "${TOOLCHAIN_SYSROOT}/bin/rustc" /usr/local/bin/rustc \
  && rustc --version \
  && cargo --version
 
