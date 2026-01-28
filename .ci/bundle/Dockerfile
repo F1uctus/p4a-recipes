@@ -60,15 +60,15 @@ ENV PROJECT_ARCH=$arch
 ARG min_android_api="24"
 ENV PROJECT_NDK_API=$min_android_api
 
-ENTRYPOINT p4a apk \
-	--release \
-	--private $WORKDIR/src \
-	--name bundle \
-	--version 1.0 \
-	--package org.p4a.bundle \
-	--bootstrap service_only \
-	--requirements "${PROJECT_PYTHON_REQUIREMENTS}${PROJECT_REQUIREMENTS}" \
-	--blacklist-requirements android \
-	--local-recipes $WORKDIR/local_recipes \
-	--arch $PROJECT_ARCH \
-	--ndk-api $PROJECT_NDK_API
+ENTRYPOINT ["p4a", "apk", \
+	"--release", \
+	"--private", "$WORKDIR/src", \
+	"--name", "bundle", \
+	"--version", "1.0", \
+	"--package", "org.p4a.bundle", \
+	"--bootstrap", "service_only", \
+	"--requirements", "${PROJECT_PYTHON_REQUIREMENTS}${PROJECT_REQUIREMENTS}", \
+	"--blacklist-requirements", "android", \
+	"--local-recipes", "$WORKDIR/local_recipes", \
+	"--arch", "$PROJECT_ARCH", \
+	"--ndk-api", "$PROJECT_NDK_API"]
