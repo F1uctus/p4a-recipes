@@ -1,4 +1,4 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe, Recipe
 
 
 class ThincRecipe(CompiledComponentsPythonRecipe):
@@ -36,6 +36,24 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
 
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
+
+        if arch is not None:
+            # Make sure Cython can find .pxd files from dependencies when building
+            # via hostpython (e.g. `cimport blis.cy`).
+            dep_build_dirs = [
+                Recipe.get_recipe("blis", self.ctx).get_build_dir(arch.arch),
+            ]
+            existing_cython = env.get("CYTHON_INCLUDE_PATH")
+            env["CYTHON_INCLUDE_PATH"] = ":".join(
+                dep_build_dirs + ([existing_cython] if existing_cython else [])
+            )
+
+            # Some builds ignore CYTHON_INCLUDE_PATH, but Cython always considers
+            # sys.path. Ensure dependency source trees are on it.
+            existing_py = env.get("PYTHONPATH")
+            env["PYTHONPATH"] = ":".join(
+                dep_build_dirs + ([existing_py] if existing_py else [])
+            )
 
         # Ensure the extension modules *link* against the shared C++ runtime so
         # it ends up in DT_NEEDED (not just copied into the APK).
