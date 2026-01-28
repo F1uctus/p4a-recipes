@@ -13,6 +13,7 @@
         "hostpython",
         "lbzip",
         "LDFLAGS",
+        "LDSHARED",
         "microdnf",
         "noninteractive",
         "postbuild",

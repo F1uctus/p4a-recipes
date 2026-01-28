@@ -59,10 +59,12 @@ RUN apk add --no-cache \
     automake \
     ccache \
     cmake \
+    gcompat \
     g++ \
     gcc \
     gettext \
     git \
+    libc6-compat \
     libffi-dev \
     libtool \
     make \
