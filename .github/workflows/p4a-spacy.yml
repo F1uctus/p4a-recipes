@@ -32,9 +32,11 @@ jobs:
       - name: Build p4a images
         run: |
           docker buildx build ".ci/build-env" --tag p4a/build-env \
+            --load \
             --cache-from type=gha \
             --cache-to type=gha,mode=max
           docker buildx build ".ci/bundle" --tag p4a/spacy \
+            --load \
             --cache-from type=gha \
             --cache-to type=gha,mode=max \
             --build-arg "python_version=3.14.2" \
