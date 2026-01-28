@@ -46,9 +46,23 @@ jobs:
             -v "${{ github.workspace }}/p4a-output:/root/.local/share" \
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
             p4a/spacy
+      - name: Collect config.log files
+        if: always()
+        run: |
+          mkdir -p p4a-logs
+          if [ -d p4a-output ]; then
+            find p4a-output -name config.log -type f -print -exec cp --parents {} p4a-logs/ \;
+          fi
 
       - name: Upload p4a output
+        if: always()
         uses: actions/upload-artifact@v6
         with:
           name: p4a-build-output
           path: p4a-output
+      - name: Upload config logs
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: p4a-config-logs
+          path: p4a-logs
