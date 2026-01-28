@@ -5,6 +5,8 @@ FROM eclipse-temurin:25-jre-noble
 
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
     unzip \
     wget \
  && apt -y autoremove \
@@ -49,7 +51,7 @@ ARG android_ndk_root="/opt/android-sdk/ndk/${android_ndk_version}"
 ENV ANDROID_NDK_ROOT=$android_ndk_root
 ENV ANDROIDNDK=$ANDROID_NDK_ROOT
 
-RUN echo y | $cmdline_tools_root/sdkmanager \
+RUN yes | $cmdline_tools_root/sdkmanager \
                 "platform-tools" \
                 "build-tools;${android_sdk_build_tools_version}" \
                 "platforms;android-${android_sdk_platform_version}" \
@@ -92,6 +94,23 @@ RUN apt-get update \
  && apt -y autoremove \
  && apt -y clean \
  && rm -rf /var/lib/apt/lists/*
+
+##############################
+# Install Rust toolchain (required by pydantic-core and other Rust extensions)
+
+ARG rustup_toolchain="stable"
+ENV RUSTUP_HOME=/opt/rustup
+ENV CARGO_HOME=/opt/cargo
+ENV PATH="${CARGO_HOME}/bin:${PATH}"
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-toolchain "${rustup_toolchain}" \
+ && rustup target add \
+    aarch64-linux-android \
+    armv7-linux-androideabi \
+    i686-linux-android \
+    x86_64-linux-android \
+ && rustc --version \
+ && cargo --version
 
 ##############################
 # Install python-for-android
