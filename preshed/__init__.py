@@ -25,9 +25,16 @@ class PreshedRecipe(CompiledComponentsPythonRecipe):
             Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
             Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
         ]
-        existing = env.get("CYTHON_INCLUDE_PATH")
+        existing_cython = env.get("CYTHON_INCLUDE_PATH")
         env["CYTHON_INCLUDE_PATH"] = ":".join(
-            ([existing] if existing else []) + dep_build_dirs
+            dep_build_dirs + ([existing_cython] if existing_cython else [])
+        )
+
+        # Some build backends/setups ignore CYTHON_INCLUDE_PATH, but Cython
+        # always considers sys.path. Ensure dependency source trees are on it.
+        existing_py = env.get("PYTHONPATH")
+        env["PYTHONPATH"] = ":".join(
+            dep_build_dirs + ([existing_py] if existing_py else [])
         )
         return env
 
