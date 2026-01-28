@@ -5,6 +5,7 @@
         "ANDROIDSDK",
         "armeabi",
         "autoremove",
+        "buildcache",
         "buildx",
         "cmdline",
         "CXXFLAGS",
