@@ -1,14 +1,11 @@
-FROM eclipse-temurin:21-jre-ubi9-minimal
-
-ENV DEBIAN_FRONTEND=noninteractive
+FROM amazoncorretto:25-alpine
 
 ##############################
 # Preinstalling minimal required packages
 
-RUN microdnf install -y \
+RUN apk add --no-cache \
     unzip \
-    wget \
- && microdnf clean all
+    wget
 
 ##############################
 # Install Android SDK Tools
@@ -57,30 +54,29 @@ RUN echo y | $cmdline_tools_root/sdkmanager \
 ##############################
 # Install requirements for compiling
 
-RUN microdnf install -y \
+RUN apk add --no-cache \
     autoconf \
     automake \
     ccache \
     cmake \
+    g++ \
     gcc \
-    gcc-c++ \
     gettext \
     git \
-    libffi-devel \
+    libffi-dev \
     libtool \
     make \
-    openssl-devel \
+    openssl-dev \
     patch \
-    pkgconf-pkg-config \
+    pkgconf \
     python3 \
-    python3-devel \
-    python3-pip \
+    python3-dev \
+    py3-pip \
     sudo \
     unzip \
     wget \
     zip \
-    zlib-devel \
- && microdnf clean all
+    zlib-dev
 
 ##############################
 # Install python-for-android
