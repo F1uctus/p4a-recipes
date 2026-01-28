@@ -39,7 +39,8 @@ jobs:
 
       - name: Build p4a images
         run: |
-          REGISTRY_IMAGE="ghcr.io/${{ github.repository }}/p4a-build-env"
+          REPO_LOWER="${GITHUB_REPOSITORY,,}"
+          REGISTRY_IMAGE="ghcr.io/${REPO_LOWER}/p4a-build-env"
           docker buildx build ".ci/build-env" \
             --tag "${REGISTRY_IMAGE}:latest" \
             --tag "${REGISTRY_IMAGE}:${{ github.sha }}" \
