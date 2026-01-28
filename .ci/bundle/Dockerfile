@@ -19,13 +19,12 @@ RUN mkdir src && > src/main.py
 ##############################
 # Install project build dependencies
 
-RUN microdnf install -y \
-	glibc-devel \
-	gdbm-devel \
-	ncurses-devel \
+RUN apk add --no-cache \
+	libc-dev \
+	gdbm-dev \
+	ncurses-dev \
 	lld \
-	openssl-devel \
- && microdnf clean all
+	openssl-dev
 
 ##############################
 # Install essential python packages
