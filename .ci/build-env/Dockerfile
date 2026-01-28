@@ -103,8 +103,9 @@ RUN wget $p4a_tarball_url -O p4a.tgz \
  && tar -xz --strip-components=1 -f p4a.tgz -C /opt/p4a \
  && rm p4a.tgz
 
+# See https://discuss.python.org/t/upcoming-changes-in-the-pypa-wheel-project/85967/22
 RUN python3 -m venv /opt/p4a-venv \
- && /opt/p4a-venv/bin/pip install -U pip setuptools wheel \
+ && /opt/p4a-venv/bin/pip install -U pip setuptools "wheel==0.45.1" \
  && /opt/p4a-venv/bin/pip install Cython \
  && /opt/p4a-venv/bin/pip install -e /opt/p4a \
  && rm -rf /root/.cache

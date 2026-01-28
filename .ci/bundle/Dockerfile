@@ -34,8 +34,9 @@ RUN apt-get update \
 ##############################
 # Install essential python packages
 
+# See https://discuss.python.org/t/upcoming-changes-in-the-pypa-wheel-project/85967/22
 RUN python3 -m pip install -U \
-	pip setuptools wheel cython
+	pip setuptools "wheel==0.45.1" cython
 
 ##############################
 # Build the project
