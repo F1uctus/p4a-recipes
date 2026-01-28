@@ -1,0 +1,55 @@
+name: p4a spacy build
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".ci/**"
+      - "spacy/**"
+      - ".github/workflows/p4a-spacy.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Cache ccache
+        uses: actions/cache@v4
+        with:
+          path: p4a-ccache
+          key: ${{ runner.os }}-p4a-ccache-${{ hashFiles('.ci/**', 'spacy/**') }}
+          restore-keys: |
+            ${{ runner.os }}-p4a-ccache-
+
+      - name: Prepare cache dirs
+        run: |
+          mkdir -p p4a-ccache p4a-output
+
+      - name: Build p4a images
+        run: |
+          docker buildx build ".ci/build-env" --tag p4a/build-env \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max
+          docker buildx build ".ci/bundle" --tag p4a/spacy \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
+            --build-arg "python_version=3.14.2" \
+            --build-arg "requirements=spacy==3.8.11"
+
+      - name: Run p4a build
+        run: |
+          docker run \
+            -v "${{ github.workspace }}/p4a-ccache:/root/.ccache" \
+            -v "${{ github.workspace }}/p4a-output:/root/.local/share" \
+            -v "${{ github.workspace }}:/root/bundle/local_recipes" \
+            p4a/spacy
+
+      - name: Upload p4a output
+        uses: actions/upload-artifact@v4
+        with:
+          name: p4a-build-output
+          path: p4a-output

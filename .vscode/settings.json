@@ -1,0 +1,27 @@
+{
+    "cSpell.words": [
+        "ANDROIDAPI",
+        "ANDROIDNDK",
+        "ANDROIDSDK",
+        "buildx",
+        "cmdline",
+        "CXXFLAGS",
+        "Cython",
+        "fexceptions",
+        "frtti",
+        "hostpython",
+        "lbzip",
+        "LDFLAGS",
+        "microdnf",
+        "noninteractive",
+        "postbuild",
+        "Preinstalling",
+        "pymorphy",
+        "sdkmanager",
+        "setuptools",
+        "spacy",
+        "stdlib",
+        "targetpython",
+        "temurin"
+    ]
+}

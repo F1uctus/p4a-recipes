@@ -1,6 +1,6 @@
 FROM p4a/build-env
 
-ENV WORKDIR /root/bundle
+ENV WORKDIR=/root/bundle
 RUN mkdir -p $WORKDIR
 WORKDIR $WORKDIR
 
@@ -19,16 +19,13 @@ RUN mkdir src && > src/main.py
 ##############################
 # Install project build dependencies
 
-RUN apt-get update \
- && apt-get install -y --no-install-recommends \
-	libc6-dev \
-	libgdbm-dev \
-	libncursesw5-dev \
+RUN microdnf install -y \
+	glibc-devel \
+	gdbm-devel \
+	ncurses-devel \
 	lld \
-	openssl \
- && apt -y autoremove \
- && apt -y clean \
- && rm -rf /var/lib/apt/lists/*
+	openssl-devel \
+ && microdnf clean all
 
 ##############################
 # Install essential python packages
@@ -42,14 +39,14 @@ RUN python3 -m pip install -U \
 VOLUME /root/.local/share
 VOLUME /root/.ccache
 
-ARG python_version="3.10.5"
+ARG python_version="3.14.2"
 ENV PROJECT_PYTHON_VERSION=$python_version
 
 ENV PROJECT_PYTHON_REQUIREMENTS="\
 hostpython3==${PROJECT_PYTHON_VERSION},\
 python3==${PROJECT_PYTHON_VERSION},"
 
-ARG requirements="spacy"
+ARG requirements="spacy==3.8.11"
 ENV PROJECT_REQUIREMENTS=$requirements
 
 ARG arch="arm64-v8a"
