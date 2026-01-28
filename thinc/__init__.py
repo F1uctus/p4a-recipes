@@ -35,8 +35,15 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
 
-        env["LDFLAGS"] += " -L{}".format(self.get_stl_lib_dir(arch))
-        env["LIBS"] = env.get("LIBS", "") + " -l{}".format(self.stl_lib_name)
+        # Ensure the extension modules *link* against the shared C++ runtime so
+        # it ends up in DT_NEEDED (not just copied into the APK).
+        stl_link_args = " -L{dir} -Wl,--no-as-needed -l{name} -Wl,--as-needed".format(
+            dir=self.get_stl_lib_dir(arch),
+            name=self.stl_lib_name,
+        )
+        env["LDFLAGS"] += stl_link_args
+        if "LDSHARED" in env:
+            env["LDSHARED"] += stl_link_args
         return env
 
     def postbuild_arch(self, arch):
