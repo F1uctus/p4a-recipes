@@ -1,4 +1,5 @@
-FROM p4a/build-env
+ARG BASE_IMAGE=p4a/build-env
+FROM ${BASE_IMAGE}
 
 ENV WORKDIR=/root/bundle
 RUN mkdir -p $WORKDIR

@@ -75,7 +75,6 @@ jobs:
         with:
           name: p4a-build-output
           path: p4a-output
-          retention-days: 2
 
       - name: Upload config logs
         if: always()
@@ -83,4 +82,3 @@ jobs:
         with:
           name: p4a-config-logs
           path: p4a-logs
-          retention-days: 2
