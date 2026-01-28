@@ -33,8 +33,8 @@ jobs:
         run: |
           docker buildx build ".ci/build-env" --tag p4a/build-env \
             --load \
-            --cache-from type=gha \
-            --cache-to type=gha,mode=max
+            --cache-from type=gha,scope=build-env \
+            --cache-to type=gha,scope=build-env,mode=max
           docker build ".ci/bundle" --tag p4a/spacy \
             --build-arg "python_version=3.14.2" \
             --build-arg "requirements=spacy==3.8.11"
