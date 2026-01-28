@@ -41,6 +41,9 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
             # Make sure Cython can find .pxd files from dependencies when building
             # via hostpython (e.g. `cimport blis.cy`).
             dep_build_dirs = [
+                Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
                 Recipe.get_recipe("blis", self.ctx).get_build_dir(arch.arch),
             ]
             existing_cython = env.get("CYTHON_INCLUDE_PATH")
