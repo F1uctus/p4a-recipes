@@ -19,12 +19,16 @@ RUN mkdir src && > src/main.py
 ##############################
 # Install project build dependencies
 
-RUN apk add --no-cache \
-	libc-dev \
-	gdbm-dev \
-	ncurses-dev \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+	libc6-dev \
+	libgdbm-dev \
+	libncursesw5-dev \
 	lld \
-	openssl-dev
+	openssl \
+ && apt -y autoremove \
+ && apt -y clean \
+ && rm -rf /var/lib/apt/lists/*
 
 ##############################
 # Install essential python packages

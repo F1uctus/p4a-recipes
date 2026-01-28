@@ -3,6 +3,7 @@
         "ANDROIDAPI",
         "ANDROIDNDK",
         "ANDROIDSDK",
+        "autoremove",
         "buildx",
         "cmdline",
         "CXXFLAGS",

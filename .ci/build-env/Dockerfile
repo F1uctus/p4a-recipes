@@ -1,11 +1,15 @@
-FROM amazoncorretto:25-alpine
+FROM eclipse-temurin:25-jre-jammy
 
 ##############################
 # Preinstalling minimal required packages
 
-RUN apk add --no-cache \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
     unzip \
-    wget
+    wget \
+ && apt -y autoremove \
+ && apt -y clean \
+ && rm -rf /var/lib/apt/lists/*
 
 ##############################
 # Install Android SDK Tools
@@ -54,32 +58,34 @@ RUN echo y | $cmdline_tools_root/sdkmanager \
 ##############################
 # Install requirements for compiling
 
-RUN apk add --no-cache \
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
     autoconf \
     automake \
     ccache \
     cmake \
-    gcompat \
-    g++ \
-    gcc \
     gettext \
     git \
-    libc6-compat \
+    lbzip2 \
     libffi-dev \
+    libltdl-dev \
+    libssl-dev \
     libtool \
     make \
-    openssl-dev \
     patch \
-    pkgconf \
+    pkg-config \
     python3 \
     python3-dev \
-    py3-pip \
-    py3-virtualenv \
+    python3-pip \
+    python3-venv \
     sudo \
     unzip \
     wget \
     zip \
-    zlib-dev
+    zlib1g-dev \
+ && apt -y autoremove \
+ && apt -y clean \
+ && rm -rf /var/lib/apt/lists/*
 
 ##############################
 # Install python-for-android
