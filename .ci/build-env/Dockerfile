@@ -101,6 +101,7 @@ RUN apt-get update \
 ARG rustup_toolchain="stable"
 ENV RUSTUP_HOME=/opt/rustup
 ENV CARGO_HOME=/opt/cargo
+ENV RUSTUP_TOOLCHAIN=${rustup_toolchain}
 ENV PATH="${CARGO_HOME}/bin:${PATH}"
 
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-toolchain "${rustup_toolchain}" \
