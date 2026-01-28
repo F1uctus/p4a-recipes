@@ -40,7 +40,7 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         # Ensure the extension modules *link* against the shared C++ runtime so
         # it ends up in DT_NEEDED (not just copied into the APK).
         stl_link_args = " -L{dir} -Wl,--no-as-needed -l{name} -Wl,--as-needed".format(
-            dir=self.get_stl_lib_dir(arch),
+            dir=self.get_stl_library(arch),
             name=self.stl_lib_name,
         )
         env["LDFLAGS"] += stl_link_args
