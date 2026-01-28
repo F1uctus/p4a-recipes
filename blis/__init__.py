@@ -18,7 +18,7 @@ class BlisRecipe(CompiledComponentsPythonRecipe):
 
         # see https://github.com/flame/blis/blob/master/config_registry
         if isinstance(arch, ArchAarch_64):
-            env["BLIS_ARCH"] = "arm64"
+            env["BLIS_ARCH"] = "cortexa57"
         elif isinstance(arch, Archx86_64):
             env["BLIS_ARCH"] = "x86_64"
         else:
