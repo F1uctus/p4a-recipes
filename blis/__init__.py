@@ -8,6 +8,8 @@ class BlisRecipe(CompiledComponentsPythonRecipe):
     depends = [
         "setuptools",
         "cython",
+    ]
+    hostpython_prerequisites = [
         "numpy",  # build only
     ]
     call_hostpython_via_targetpython = False
