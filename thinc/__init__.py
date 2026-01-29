@@ -1,8 +1,5 @@
 from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
-from ..shared import extend_env_with_recipe_build_dirs
-
-
 class ThincRecipe(CompiledComponentsPythonRecipe):
     version = "8.3.10"
     url = (
@@ -32,14 +29,24 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
     call_hostpython_via_targetpython = False
     install_in_hostpython = True
 
+    def _extend_env(self, env, arch):
+        if arch is None:
+            return {}
+        dep_build_dirs = list(
+            dict.fromkeys(
+                [
+                    self.get_recipe(name, self.ctx).get_build_dir(arch.arch)
+                    for name in ("cymem", "murmurhash", "preshed", "blis")
+                ]
+            )
+        )
+        for key in ("CYTHON_INCLUDE_PATH", "PYTHONPATH"):
+            env[key] = ":".join(dep_build_dirs + ([x] if (x := env.get(key)) else []))
+        return env
+
     def get_hostrecipe_env(self, arch=None):
         env = super().get_hostrecipe_env(arch)
-        return extend_env_with_recipe_build_dirs(
-            env,
-            ctx=self.ctx,
-            arch=arch,
-            recipe_names=("cymem", "murmurhash", "preshed", "blis"),
-        )
+        return self._extend_env(env, arch=arch)
 
     def get_recipe_env(self, arch=None, with_flags_in_cc=True):
         env = super().get_recipe_env(arch, with_flags_in_cc)
@@ -48,12 +55,7 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
 
-        extend_env_with_recipe_build_dirs(
-            env,
-            ctx=self.ctx,
-            arch=arch,
-            recipe_names=("cymem", "murmurhash", "preshed", "blis"),
-        )
+        self._extend_env(env, arch=arch)
 
         # Ensure the extension modules *link* against the shared C++ runtime so
         # it ends up in DT_NEEDED (not just copied into the APK).
