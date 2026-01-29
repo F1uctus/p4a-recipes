@@ -1,4 +1,4 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe, Recipe
 
 
 class SpacyRecipe(CompiledComponentsPythonRecipe):
@@ -46,6 +46,19 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
     def get_recipe_env(self, arch=None, with_flags_in_cc=True):
         env = super().get_recipe_env(arch, with_flags_in_cc)
         env["CXXFLAGS"] = env["CFLAGS"] + " -frtti -fexceptions"
+
+        if arch is not None:
+            # Ensure Cython can resolve .pxd files from compiled deps when
+            # cythonizing via hostpython.
+            dep_build_dirs = [
+                Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
+            ]
+            existing = env.get("CYTHON_INCLUDE_PATH")
+            env["CYTHON_INCLUDE_PATH"] = ":".join(
+                ([existing] if existing else []) + dep_build_dirs
+            )
 
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
