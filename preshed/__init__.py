@@ -1,4 +1,6 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe, Recipe
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+
+from shared import extend_env_with_recipe_build_dirs
 
 
 class PreshedRecipe(CompiledComponentsPythonRecipe):
@@ -16,39 +18,20 @@ class PreshedRecipe(CompiledComponentsPythonRecipe):
 
     def get_hostrecipe_env(self, arch=None):
         env = super().get_hostrecipe_env(arch)
-        if arch is None:
-            return env
-
-        dep_build_dirs = [
-            Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
-            Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
-        ]
-        for key in ("CYTHON_INCLUDE_PATH", "PYTHONPATH"):
-            existing = env.get(key)
-            env[key] = ":".join(dep_build_dirs + ([existing] if existing else []))
-        return env
+        return extend_env_with_recipe_build_dirs(
+            env,
+            ctx=self.ctx,
+            arch=arch,
+            recipe_names=("cymem", "murmurhash"),
+        )
 
     def get_recipe_env(self, arch=None, with_flags_in_cc=False):
         env = super().get_recipe_env(arch, with_flags_in_cc)
-        if arch is None:
-            return env
-
-        # Make sure Cython can find .pxd files from dependencies when building
-        # via hostpython (e.g. `from cymem.cymem cimport Pool`).
-        dep_build_dirs = [
-            Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
-            Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
-        ]
-        existing_cython = env.get("CYTHON_INCLUDE_PATH")
-        env["CYTHON_INCLUDE_PATH"] = ":".join(
-            dep_build_dirs + ([existing_cython] if existing_cython else [])
-        )
-
-        # Some build backends/setups ignore CYTHON_INCLUDE_PATH, but Cython
-        # always considers sys.path. Ensure dependency source trees are on it.
-        existing_py = env.get("PYTHONPATH")
-        env["PYTHONPATH"] = ":".join(
-            dep_build_dirs + ([existing_py] if existing_py else [])
+        extend_env_with_recipe_build_dirs(
+            env,
+            ctx=self.ctx,
+            arch=arch,
+            recipe_names=("cymem", "murmurhash"),
         )
         return env
 

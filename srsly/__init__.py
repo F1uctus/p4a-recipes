@@ -3,7 +3,9 @@ from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 class SrslyRecipe(CompiledComponentsPythonRecipe):
     version = "2.5.2"
-    url = "https://files.pythonhosted.org/packages/source/s/srsly/srsly-{version}.tar.gz"
+    url = (
+        "https://files.pythonhosted.org/packages/source/s/srsly/srsly-{version}.tar.gz"
+    )
     site_packages_name = "srsly"
     depends = [
         "setuptools",

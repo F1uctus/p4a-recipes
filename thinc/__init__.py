@@ -1,4 +1,6 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe, Recipe
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+
+from shared import extend_env_with_recipe_build_dirs
 
 
 class ThincRecipe(CompiledComponentsPythonRecipe):
@@ -30,6 +32,15 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
     call_hostpython_via_targetpython = False
     install_in_hostpython = True
 
+    def get_hostrecipe_env(self, arch=None):
+        env = super().get_hostrecipe_env(arch)
+        return extend_env_with_recipe_build_dirs(
+            env,
+            ctx=self.ctx,
+            arch=arch,
+            recipe_names=("cymem", "murmurhash", "preshed", "blis"),
+        )
+
     def get_recipe_env(self, arch=None, with_flags_in_cc=True):
         env = super().get_recipe_env(arch, with_flags_in_cc)
         env["CXXFLAGS"] = env["CFLAGS"] + " -frtti -fexceptions"
@@ -37,26 +48,12 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
 
-        if arch is not None:
-            # Make sure Cython can find .pxd files from dependencies when building
-            # via hostpython (e.g. `cimport blis.cy`).
-            dep_build_dirs = [
-                Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("blis", self.ctx).get_build_dir(arch.arch),
-            ]
-            existing_cython = env.get("CYTHON_INCLUDE_PATH")
-            env["CYTHON_INCLUDE_PATH"] = ":".join(
-                dep_build_dirs + ([existing_cython] if existing_cython else [])
-            )
-
-            # Some builds ignore CYTHON_INCLUDE_PATH, but Cython always considers
-            # sys.path. Ensure dependency source trees are on it.
-            existing_py = env.get("PYTHONPATH")
-            env["PYTHONPATH"] = ":".join(
-                dep_build_dirs + ([existing_py] if existing_py else [])
-            )
+        extend_env_with_recipe_build_dirs(
+            env,
+            ctx=self.ctx,
+            arch=arch,
+            recipe_names=("cymem", "murmurhash", "preshed", "blis"),
+        )
 
         # Ensure the extension modules *link* against the shared C++ runtime so
         # it ends up in DT_NEEDED (not just copied into the APK).

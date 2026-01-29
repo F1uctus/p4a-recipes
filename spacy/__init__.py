@@ -1,9 +1,13 @@
-from pythonforandroid.recipe import CompiledComponentsPythonRecipe, Recipe
+from pythonforandroid.recipe import CompiledComponentsPythonRecipe
+
+from shared import extend_env_with_recipe_build_dirs
 
 
 class SpacyRecipe(CompiledComponentsPythonRecipe):
     version = "3.8.11"
-    url = "https://files.pythonhosted.org/packages/source/s/spacy/spacy-{version}.tar.gz"
+    url = (
+        "https://files.pythonhosted.org/packages/source/s/spacy/spacy-{version}.tar.gz"
+    )
     site_packages_name = "spacy"
     depends = [
         "setuptools",
@@ -45,41 +49,23 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
 
     def get_hostrecipe_env(self, arch=None):
         env = super().get_hostrecipe_env(arch)
-        if arch is None:
-            return env
-
-        dep_build_dirs = [
-            Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
-            Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
-            Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
-            Recipe.get_recipe("thinc", self.ctx).get_build_dir(arch.arch),
-        ]
-
-        for key in ("CYTHON_INCLUDE_PATH", "PYTHONPATH"):
-            existing = env.get(key)
-            env[key] = ":".join(([existing] if existing else []) + dep_build_dirs)
-
-        return env
+        return extend_env_with_recipe_build_dirs(
+            env,
+            ctx=self.ctx,
+            arch=arch,
+            recipe_names=("cymem", "preshed", "murmurhash", "thinc"),
+        )
 
     def get_recipe_env(self, arch=None, with_flags_in_cc=True):
         env = super().get_recipe_env(arch, with_flags_in_cc)
         env["CXXFLAGS"] = env["CFLAGS"] + " -frtti -fexceptions"
 
-        if arch is not None:
-            # Ensure Cython can resolve .pxd files from compiled deps when
-            # cythonizing via hostpython.
-            dep_build_dirs = [
-                Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
-                Recipe.get_recipe("thinc", self.ctx).get_build_dir(arch.arch),
-            ]
-            existing = env.get("CYTHON_INCLUDE_PATH")
-            env["CYTHON_INCLUDE_PATH"] = ":".join(
-                ([existing] if existing else []) + dep_build_dirs
-            )
-            existing = env.get("PYTHONPATH")
-            env["PYTHONPATH"] = ":".join(([existing] if existing else []) + dep_build_dirs)
+        extend_env_with_recipe_build_dirs(
+            env,
+            ctx=self.ctx,
+            arch=arch,
+            recipe_names=("cymem", "preshed", "murmurhash", "thinc"),
+        )
 
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
