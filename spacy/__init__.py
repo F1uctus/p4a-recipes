@@ -52,6 +52,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
             Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
             Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
             Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
+            Recipe.get_recipe("thinc", self.ctx).get_build_dir(arch.arch),
         ]
 
         for key in ("CYTHON_INCLUDE_PATH", "PYTHONPATH"):
@@ -71,6 +72,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
                 Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
                 Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
                 Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
+                Recipe.get_recipe("thinc", self.ctx).get_build_dir(arch.arch),
             ]
             existing = env.get("CYTHON_INCLUDE_PATH")
             env["CYTHON_INCLUDE_PATH"] = ":".join(
