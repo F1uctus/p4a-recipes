@@ -66,9 +66,9 @@ ENTRYPOINT p4a apk \
 	--name bundle \
 	--version 1.0 \
 	--package org.p4a.bundle \
-	--bootstrap service_only \
+	--bootstrap service_library \
 	--requirements "${PROJECT_PYTHON_REQUIREMENTS}${PROJECT_REQUIREMENTS}" \
-	--blacklist-requirements android \
+	--blacklist-requirements android,sqlite3,sdl2 \
 	--local-recipes $WORKDIR/local_recipes \
 	--arch $PROJECT_ARCH \
 	--ndk-api $PROJECT_NDK_API
