@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25-jre-noble
+FROM eclipse-temurin:21-jre-noble
 
 ##############################
 # Preinstalling minimal required packages
