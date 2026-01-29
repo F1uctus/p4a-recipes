@@ -1,4 +1,4 @@
-from pythonforandroid.archs import ArchAarch_64, Archx86_64
+from pythonforandroid.archs import Archx86_64
 from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
 
