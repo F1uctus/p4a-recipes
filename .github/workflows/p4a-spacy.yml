@@ -62,10 +62,12 @@ jobs:
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
             p4a/spacy
 
-      - name: Fix permissions on output (make readable by runner)
+      - name: Fix permissions (make output traversable)
         run: |
-          docker run --rm -v "${{ github.workspace }}/p4a-output:/output" alpine \
-            sh -c "chown -R $(id -u):$(id -g) /output"
+          docker run --rm \
+            -v "${{ github.workspace }}/p4a-output:/output" \
+            alpine sh -c \
+            "chmod -R a+rX /output"
 
       - name: Collect config.log files
         if: always()
