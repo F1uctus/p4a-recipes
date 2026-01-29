@@ -60,7 +60,7 @@ ENV PROJECT_ARCH=$arch
 ARG min_android_api="24"
 ENV PROJECT_NDK_API=$min_android_api
 
-ENTRYPOINT p4a apk \
+ENTRYPOINT p4a aar \
 	--release \
 	--private $WORKDIR/src \
 	--name bundle \
