@@ -57,11 +57,15 @@ jobs:
       - name: Run p4a build
         run: |
           docker run \
-            --user "$(id -u):$(id -g)" \
             -v "${{ github.workspace }}/p4a-ccache:/root/.ccache" \
             -v "${{ github.workspace }}/p4a-output:/root/.local/share" \
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
             p4a/spacy
+
+      - name: Fix permissions on output (make readable by runner)
+        run: |
+          docker run --rm -v "${{ github.workspace }}/p4a-output:/output" alpine \
+            sh -c "chown -R $(id -u):$(id -g) /output"
 
       - name: Collect config.log files
         if: always()
