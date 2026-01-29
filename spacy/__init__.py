@@ -43,6 +43,23 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
     ]
     call_hostpython_via_targetpython = False
 
+    def get_hostrecipe_env(self, arch=None):
+        env = super().get_hostrecipe_env(arch)
+        if arch is None:
+            return env
+
+        dep_build_dirs = [
+            Recipe.get_recipe("cymem", self.ctx).get_build_dir(arch.arch),
+            Recipe.get_recipe("preshed", self.ctx).get_build_dir(arch.arch),
+            Recipe.get_recipe("murmurhash", self.ctx).get_build_dir(arch.arch),
+        ]
+
+        for key in ("CYTHON_INCLUDE_PATH", "PYTHONPATH"):
+            existing = env.get(key)
+            env[key] = ":".join(([existing] if existing else []) + dep_build_dirs)
+
+        return env
+
     def get_recipe_env(self, arch=None, with_flags_in_cc=True):
         env = super().get_recipe_env(arch, with_flags_in_cc)
         env["CXXFLAGS"] = env["CFLAGS"] + " -frtti -fexceptions"
@@ -59,6 +76,8 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
             env["CYTHON_INCLUDE_PATH"] = ":".join(
                 ([existing] if existing else []) + dep_build_dirs
             )
+            existing = env.get("PYTHONPATH")
+            env["PYTHONPATH"] = ":".join(([existing] if existing else []) + dep_build_dirs)
 
         if with_flags_in_cc:
             env["CXX"] += " -frtti -fexceptions"
