@@ -57,6 +57,7 @@ jobs:
       - name: Run p4a build
         run: |
           docker run \
+            --user "$(id -u):$(id -g)" \
             -v "${{ github.workspace }}/p4a-ccache:/root/.ccache" \
             -v "${{ github.workspace }}/p4a-output:/root/.local/share" \
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
