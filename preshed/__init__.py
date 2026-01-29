@@ -1,6 +1,6 @@
 from pythonforandroid.recipe import CompiledComponentsPythonRecipe
 
-from shared import extend_env_with_recipe_build_dirs
+from ..shared import extend_env_with_recipe_build_dirs
 
 
 class PreshedRecipe(CompiledComponentsPythonRecipe):
