@@ -47,7 +47,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
 
     def _extend_env(self, env, arch):
         if arch is None:
-            return {}
+            return env
         dep_build_dirs = list(
             dict.fromkeys(
                 [
