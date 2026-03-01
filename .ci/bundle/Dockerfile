@@ -73,4 +73,5 @@ ENTRYPOINT p4a aar \
 	--blacklist-requirements android,sdl2 \
 	--local-recipes $WORKDIR/local_recipes \
 	--arch $PROJECT_ARCH \
-	--ndk-api $PROJECT_NDK_API
+	--ndk-api $PROJECT_NDK_API \
+	--debug
