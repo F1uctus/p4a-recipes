@@ -57,17 +57,18 @@ jobs:
       - name: Run p4a build
         run: |
           docker run \
+            --user $(id -u):$(id -g) \
             -v "${{ github.workspace }}/p4a-ccache:/root/.ccache" \
             -v "${{ github.workspace }}/p4a-output:/root/.local/share" \
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
             p4a/spacy
 
-      - name: Fix permissions (make output traversable)
+      - name: Prune redundant build outputs
         run: |
           docker run --rm \
-            -v "${{ github.workspace }}/p4a-output:/output" \
+            -v "${{ github.workspace }}/p4a-output:/p4a-output" \
             alpine sh -c \
-            "chmod -R a+rX /output && apk add --no-cache tree && tree -L 4 /output"
+            "rm -rf /p4a-output/python-for-android/build/venv"
 
       - name: Collect config.log files
         if: always()
