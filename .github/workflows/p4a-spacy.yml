@@ -62,13 +62,6 @@ jobs:
             -v "${{ github.workspace }}:/root/bundle/local_recipes" \
             p4a/spacy
 
-      - name: Prune redundant build outputs
-        run: |
-          docker run --rm \
-            -v "${{ github.workspace }}/p4a-output:/p4a-output" \
-            alpine sh -c \
-            "rm -rf /p4a-output/python-for-android/build/venv"
-
       - name: Collect config.log files
         if: always()
         run: |
@@ -77,12 +70,16 @@ jobs:
             find p4a-output -name config.log -type f -print -exec cp --parents {} p4a-logs/ \;
           fi
 
-      - name: Upload p4a output
+      - name: Upload p4a dist
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: p4a-build-output
-          path: p4a-output
+          name: p4a-dist
+          include-hidden-files: true
+          if-no-files-found: error
+          path: |
+            p4a-output/python-for-android/dists/*/libs/
+            p4a-output/python-for-android/dists/*/_python_bundle*/_python_bundle/
 
       - name: Upload config logs
         if: always()

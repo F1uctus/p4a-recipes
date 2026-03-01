@@ -66,6 +66,7 @@ ENTRYPOINT p4a aar \
 	--release \
 	--private $WORKDIR/src \
 	--name bundle \
+	--dist_name bundle \
 	--version 1.0 \
 	--package org.p4a.bundle \
 	--bootstrap service_library \
