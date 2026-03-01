@@ -122,6 +122,8 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-too
 
 ARG p4a_tarball_url=https://github.com/kivy/python-for-android/tarball/develop
 
+ENV PIP_ROOT_USER_ACTION=ignore
+
 RUN wget $p4a_tarball_url -O p4a.tgz \
  && mkdir /opt/p4a \
  && tar -xz --strip-components=1 -f p4a.tgz -C /opt/p4a \

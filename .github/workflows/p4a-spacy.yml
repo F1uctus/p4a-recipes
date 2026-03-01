@@ -67,7 +67,7 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}/p4a-output:/output" \
             alpine sh -c \
-            "chmod -R a+rX /output"
+            "chmod -R a+rX /output && apk add --no-cache tree && tree -L 4 /output"
 
       - name: Collect config.log files
         if: always()
