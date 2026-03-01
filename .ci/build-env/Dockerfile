@@ -46,7 +46,6 @@ ARG android_sdk_build_tools_version="35.0.0"
 ARG android_ndk_version="29.0.14206865"
 ENV ANDROID_NDK_VERSION=$android_ndk_version
 
-
 ARG android_ndk_root="/opt/android-sdk/ndk/${android_ndk_version}"
 ENV ANDROID_NDK_ROOT=$android_ndk_root
 ENV ANDROIDNDK=$ANDROID_NDK_ROOT
@@ -138,8 +137,13 @@ RUN python3 -m venv /opt/p4a-venv \
 ##############################
 # Configure the environment
 
+# Silences "stty: 'standard input': Inappropriate ioctl for device"
+RUN printf '#!/bin/sh\nexit 0\n' > /usr/local/bin/stty \
+    && chmod +x /usr/local/bin/stty
+
 ENV PATH="\
-${ANDROID_NDK_ROOT}\
+/usr/local/bin:\
+${ANDROID_NDK_ROOT}:\
 ${cmdline_tools_root}:\
 $ANDROID_SDK_ROOT/platform-tools:\
 $ANDROID_SDK_ROOT/platform-tools/bin:\

@@ -38,6 +38,8 @@ RUN apt-get update \
 RUN python3 -m pip install -U \
 	pip setuptools "wheel==0.45.1" cython
 
+RUN git config --global --add safe.directory '*'
+
 ##############################
 # Build the project
 
