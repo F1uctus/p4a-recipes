@@ -2,7 +2,7 @@ from pythonforandroid.recipe import PythonRecipe
 
 
 class PydanticRecipe(PythonRecipe):
-    version = "2.12.4"
+    version = "2.12.5"
     url = "https://files.pythonhosted.org/packages/source/p/pydantic/pydantic-{version}.tar.gz"
     site_packages_name = "pydantic"
     depends = [
