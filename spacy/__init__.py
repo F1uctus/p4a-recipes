@@ -31,7 +31,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
         "requests",
         "urllib3",
         "tqdm",
-        "pydantic",
+        "pydantic==2.13.0b2",
         "jinja2",
         "langcodes",
         # Official Python utilities
