@@ -31,7 +31,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
         "requests",
         "urllib3",
         "tqdm",
-        "pydantic",
+        # "pydantic", # overridden with 2.13.0b2 in bundle Dockerfile
         "jinja2",
         "langcodes",
         # Official Python utilities

@@ -22,7 +22,7 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         "confection",
         "ml_datasets",
         # Third-party dependencies
-        "pydantic",
+        # "pydantic", # overridden with 2.13.0b2 in bundle Dockerfile
         "numpy",
         "packaging",
     ]
