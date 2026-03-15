@@ -72,7 +72,6 @@ class NumpyRecipe(MesonRecipe):
         if not isdir(join(self.get_build_dir(arch.arch), 'numpy', '_core')):
             overrides_py = join(self.get_build_dir(arch.arch), 'numpy', 'core', 'overrides.py')
 
-        self.logger.info(f"Patching NumPy overrides at {overrides_py}")
         with open(overrides_py, 'r') as f:
             content = f.read()
 
