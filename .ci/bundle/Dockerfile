@@ -32,26 +32,17 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 ##############################
-# Install essential python packages
-
-# See https://discuss.python.org/t/upcoming-changes-in-the-pypa-wheel-project/85967/22
-RUN python3 -m pip install -U \
-	pip setuptools "wheel==0.45.1" cython
-
-RUN git config --global --add safe.directory '*'
-
-##############################
 # Build the project
 
 VOLUME /root/.local/share
 VOLUME /root/.ccache
 
-ARG python_version="3.14.2"
+ARG python_version="3.13.12"
 ENV PROJECT_PYTHON_VERSION=$python_version
 
 ENV PROJECT_PYTHON_REQUIREMENTS="\
-hostpython3==${PROJECT_PYTHON_VERSION},\
-python3==${PROJECT_PYTHON_VERSION},"
+	hostpython3==${PROJECT_PYTHON_VERSION},\
+	python3==${PROJECT_PYTHON_VERSION},"
 
 ARG requirements="spacy==3.8.11"
 ENV PROJECT_REQUIREMENTS=$requirements

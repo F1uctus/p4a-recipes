@@ -51,7 +51,7 @@ jobs:
           docker build ".ci/bundle" --tag p4a/spacy \
             --pull \
             --build-arg "BASE_IMAGE=${REGISTRY_IMAGE}:latest" \
-            --build-arg "python_version=3.14.2" \
+            --build-arg "python_version=3.13.12" \
             --build-arg "requirements=pydantic==2.13.0b2,spacy==3.8.11"
 
       - name: Run p4a build
@@ -83,22 +83,11 @@ jobs:
             find p4a-output -name config.log -type f -print -exec cp --parents {} p4a-logs/ \;
           fi
 
-      - name: Upload p4a dist
-        if: always()
-        uses: actions/upload-artifact@v6
-        with:
-          name: p4a-dist
-          include-hidden-files: true
-          if-no-files-found: error
-          path: |
-            p4a-output/python-for-android/dists/*/libs/
-            p4a-output/python-for-android/dists/*/_python_bundle*/_python_bundle/
-
       - name: Upload p4a dist zip
         if: always()
         uses: actions/upload-artifact@v6
         with:
-          name: p4a-dist-zip
+          name: p4a-dist
           path: p4a-dist.zip
 
       - name: Publish GitHub release asset
