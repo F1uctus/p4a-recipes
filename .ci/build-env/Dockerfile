@@ -131,7 +131,7 @@ RUN wget $p4a_tarball_url -O p4a.tgz \
 
 # See https://discuss.python.org/t/upcoming-changes-in-the-pypa-wheel-project/85967/22
 RUN python3 -m pip install \
-   --upgrade --no-cache --break-system-packages \
+   --upgrade --no-cache --break-system-packages --ignore-installed \
    pip setuptools "wheel==0.45.1" Cython
 
 ##############################
