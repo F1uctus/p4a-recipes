@@ -1,4 +1,4 @@
-from pythonforandroid.recipe import HostPython3Recipe
+from pythonforandroid.recipe.hostpython3 import HostPython3Recipe
 
 
 class MyHostPython3Recipe(HostPython3Recipe):
