@@ -53,7 +53,7 @@ ENV PROJECT_ARCH=$arch
 ARG min_android_api="24"
 ENV PROJECT_NDK_API=$min_android_api
 
-ENTRYPOINT /opt/p4a/bin/p4a aar \
+ENTRYPOINT /usr/local/bin/p4a aar \
 	--release \
 	--private $WORKDIR/src \
 	--name bundle \

@@ -133,7 +133,9 @@ RUN wget $p4a_tarball_url -O p4a.tgz \
 RUN python3 -m pip install \
    --upgrade --no-cache --break-system-packages --ignore-installed \
    pip setuptools "wheel==0.45.1" Cython \
-   && python3 -m pip install -e /opt/p4a
+   && python3 -m pip install \
+   --upgrade --no-cache --break-system-packages --ignore-installed \
+   --editable /opt/p4a
 
 ##############################
 # Configure the environment
