@@ -132,7 +132,8 @@ RUN wget $p4a_tarball_url -O p4a.tgz \
 # See https://discuss.python.org/t/upcoming-changes-in-the-pypa-wheel-project/85967/22
 RUN python3 -m pip install \
    --upgrade --no-cache --break-system-packages --ignore-installed \
-   pip setuptools "wheel==0.45.1" Cython
+   pip setuptools "wheel==0.45.1" Cython \
+   && python3 -m pip install -e /opt/p4a
 
 ##############################
 # Configure the environment
@@ -142,7 +143,7 @@ RUN printf '#!/bin/sh\nexit 0\n' > /usr/local/bin/stty \
    && chmod +x /usr/local/bin/stty
 
 ENV PATH="\
-   /opt/p4a-venv/bin:\
+   /opt/p4a/bin:\
    /usr/local/bin:\
    ${ANDROID_NDK_ROOT}:\
    ${cmdline_tools_root}:\
@@ -150,4 +151,5 @@ ENV PATH="\
    $ANDROID_SDK_ROOT/platform-tools/bin:\
    $PATH"
 
-ONBUILD RUN export ANDROID_NDK_MAJOR_VERSION=$(echo $ANDROID_NDK_VERSION | cut -d. -f1)
+ONBUILD RUN \
+   export ANDROID_NDK_MAJOR_VERSION=$(echo $ANDROID_NDK_VERSION | cut -d. -f1)
