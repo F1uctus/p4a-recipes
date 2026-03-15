@@ -61,6 +61,34 @@ class NumpyRecipe(MesonRecipe):
         )
         return env
 
+    def prebuild_arch(self, arch):
+        super().prebuild_arch(arch)
+        # Fix for NumPy 2.x docstring optimization issue on Android.
+        # This prevents "TypeError: argument docstring of add_docstring should be a str"
+        # when docstrings are stripped by the bytecode optimizer (-OO).
+        overrides_py = join(self.get_build_dir(arch.arch), 'numpy', '_core', 'overrides.py')
+
+        # Note: If numpy 2.x is used, the file is in _core. In 1.x it was in core.
+        if not isdir(join(self.get_build_dir(arch.arch), 'numpy', '_core')):
+            overrides_py = join(self.get_build_dir(arch.arch), 'numpy', 'core', 'overrides.py')
+
+        self.logger.info(f"Patching NumPy overrides at {overrides_py}")
+        with open(overrides_py, 'r') as f:
+            content = f.read()
+
+        # Wrap add_docstring calls in existence checks
+        content = content.replace(
+            'add_docstring(implementation, dispatcher.__doc__)',
+            'if isinstance(dispatcher.__doc__, str): add_docstring(implementation, dispatcher.__doc__)'
+        )
+        content = content.replace(
+            'add_docstring(implementation, doc)',
+            'if isinstance(doc, str): add_docstring(implementation, doc)'
+        )
+
+        with open(overrides_py, 'w') as f:
+            f.write(content)
+
     def build_arch(self, arch):
         super().build_arch(arch)
         self.restore_hostpython_prerequisites(["cython"])
