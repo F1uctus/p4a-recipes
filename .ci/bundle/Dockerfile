@@ -37,9 +37,6 @@ RUN apt-get update \
 VOLUME /root/.local/share
 VOLUME /root/.ccache
 
-ARG python_version="3.13.12"
-ENV PROJECT_PYTHON_VERSION=$python_version
-
 ENV PROJECT_PYTHON_REQUIREMENTS="\
 	hostpython3==${PROJECT_PYTHON_VERSION},\
 	python3==${PROJECT_PYTHON_VERSION},"
