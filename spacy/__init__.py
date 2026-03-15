@@ -36,12 +36,6 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
         "langcodes",
         # Official Python utilities
         "packaging",
-        # Required for Russian language
-        "pymorphy2",
-        "pymorphy2_dicts_ru",
-        "DAWG-Python",
-        "appdirs",
-        "pyparsing",
     ]
     patches = ["pydantic-beta.patch"]
     call_hostpython_via_targetpython = False
