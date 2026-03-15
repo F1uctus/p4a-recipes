@@ -1,7 +1,11 @@
 --- a/setup.cfg
 +++ b/setup.cfg
-@@ -18,7 +18,7 @@
-     numpy>=1.21.0,<3.0.0
--    pydantic>=2.0.0,<3.0.0
-+    pydantic>=2.13.0b2
-     packaging>=20.0
+@@ -49,7 +49,7 @@
+ 	confection>=0.0.1,<1.0.0
+ 	setuptools
+ 	numpy>=1.19.0,<3.0.0
+-	pydantic>=2.0.0,<3.0.0
++	pydantic>=2.13.0b2
+ 	packaging>=20.0
+ 	dataclasses>=0.6,<1.0; python_version < "3.7"
+ 	typing_extensions>=3.7.4.1,<5.0.0; python_version < "3.8"
