@@ -22,7 +22,7 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         "confection",
         "ml_datasets",
         # Third-party dependencies
-        "pydantic==2.13.0b2",
+        "pydantic",
         "numpy",
         "packaging",
     ]
