@@ -31,7 +31,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
         "requests",
         "urllib3",
         "tqdm",
-        # "pydantic", # overridden with 2.13.0b2 in bundle Dockerfile
+        "pydantic",
         "jinja2",
         "langcodes",
         # Official Python utilities
@@ -43,6 +43,7 @@ class SpacyRecipe(CompiledComponentsPythonRecipe):
         "appdirs",
         "pyparsing",
     ]
+    patches = ["pydantic-beta.patch"]
     call_hostpython_via_targetpython = False
 
     def _extend_env(self, env, arch):

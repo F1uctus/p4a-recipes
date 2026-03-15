@@ -22,10 +22,11 @@ class ThincRecipe(CompiledComponentsPythonRecipe):
         "confection",
         "ml_datasets",
         # Third-party dependencies
-        # "pydantic", # overridden with 2.13.0b2 in bundle Dockerfile
+        "pydantic",
         "numpy",
         "packaging",
     ]
+    patches = ["pydantic-beta.patch"]
     call_hostpython_via_targetpython = False
     install_in_hostpython = True
 

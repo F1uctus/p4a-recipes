@@ -1,0 +1,7 @@
+--- a/setup.cfg
++++ b/setup.cfg
+@@ -18,7 +18,7 @@
+     numpy>=1.21.0,<3.0.0
+-    pydantic>=2.0.0,<3.0.0
++    pydantic>=2.13.0b2
+     packaging>=20.0

@@ -53,7 +53,7 @@ ENV PROJECT_PYTHON_REQUIREMENTS="\
 hostpython3==${PROJECT_PYTHON_VERSION},\
 python3==${PROJECT_PYTHON_VERSION},"
 
-ARG requirements="pydantic==2.13.0b2,spacy==3.8.11"
+ARG requirements="spacy==3.8.11"
 ENV PROJECT_REQUIREMENTS=$requirements
 
 ARG arch="arm64-v8a"

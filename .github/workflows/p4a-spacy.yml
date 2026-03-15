@@ -52,7 +52,7 @@ jobs:
             --pull \
             --build-arg "BASE_IMAGE=${REGISTRY_IMAGE}:latest" \
             --build-arg "python_version=3.14.2" \
-            --build-arg "requirements=spacy==3.8.11"
+            --build-arg "requirements=pydantic==2.13.0b2,spacy==3.8.11"
 
       - name: Run p4a build
         run: |
