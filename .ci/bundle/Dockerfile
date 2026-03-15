@@ -37,9 +37,7 @@ RUN apt-get update \
 VOLUME /root/.local/share
 VOLUME /root/.ccache
 
-ENV PROJECT_PYTHON_REQUIREMENTS="\
-	hostpython3==${PROJECT_PYTHON_VERSION},\
-	python3==${PROJECT_PYTHON_VERSION},"
+ENV PROJECT_PYTHON_REQUIREMENTS="hostpython3,python3,"
 
 ARG requirements="spacy==3.8.11"
 ENV PROJECT_REQUIREMENTS=$requirements
